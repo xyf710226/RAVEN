@@ -13,7 +13,7 @@ function exportModel(model,fileName,exportGeneComplexes,supressWarnings)
 %
 %   Usage: exportModel(model,fileName,exportGeneComplexes,supressWarnings)
 %
-%   Simonas Marcisauskas, 2018-05-08
+%   Eduard Kerkhoven, 2018-04-12
 
 if nargin<3
     exportGeneComplexes=false;
@@ -72,9 +72,6 @@ if ~isfield(model,'metMiriams')
 end
 if ~isfield(model,'geneMiriams') && isfield(model,'genes')
     model.geneMiriams=cell(numel(model.genes),1);
-end
-if ~isfield(model,'geneShortNames') && isfield(model,'genes')
-    model.geneShortNames=cell(numel(model.genes),1);
 end
 if ~isfield(model,'subSystems')
     model.subSystems=cell(numel(model.rxns),1);
@@ -327,11 +324,7 @@ if isfield(model,'genes')
             modelSBML.fbc_geneProduct(i).fbc_id=model.genes{i};
         end
         if isfield(modelSBML.fbc_geneProduct, 'fbc_label') && isfield(model,'geneShortNames')
-            if isempty(model.geneShortNames{i})
-                modelSBML.fbc_geneProduct(i).fbc_label=model.genes{i};
-            else
-                modelSBML.fbc_geneProduct(i).fbc_label=model.geneShortNames{i};
-            end
+            modelSBML.fbc_geneProduct(i).fbc_label=model.geneShortNames{i};
         end
     end
     if exportGeneComplexes==true
